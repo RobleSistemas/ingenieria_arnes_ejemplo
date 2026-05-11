@@ -1,4 +1,4 @@
-# ejemplo-arnes — Notes CLI
+# ejemplo-Arnes — Notes CLI
 
 Proyecto de ejemplo que demuestra los principios de **Arnes Engineering**
 aplicados a un CLI minimalista de notas en Python.
