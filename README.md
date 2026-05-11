@@ -1,18 +1,18 @@
-# Harness Engineering: Guía de Implementación y Mejores Prácticas
+# Arness Engineering: Guía de Implementación y Mejores Prácticas
 
 ## 1. Objetivo del documento
 
 Este documento detalla la configuración de un **arnés de trabajo para agentes de Inteligencia Artificial** dentro de un proyecto de software.
 
-El concepto de **Harness Engineering** se refiere a la práctica de construir un entorno controlado, auditable y repetible para dirigir el comportamiento de un modelo de IA. En lugar de tratar al agente como un simple chatbot, se lo integra como parte de un sistema de desarrollo robusto, con reglas, validaciones, memoria externa, protocolos de trabajo y mecanismos de verificación continua.
+El concepto de **arness Engineering** se refiere a la práctica de construir un entorno controlado, auditable y repetible para dirigir el comportamiento de un modelo de IA. En lugar de tratar al agente como un simple chatbot, se lo integra como parte de un sistema de desarrollo robusto, con reglas, validaciones, memoria externa, protocolos de trabajo y mecanismos de verificación continua.
 
 El objetivo principal es que los agentes puedan trabajar sobre un repositorio real sin depender únicamente del historial del chat, reduciendo errores, mejorando la trazabilidad y obligando a validar técnicamente cada avance.
 
 ---
 
-## 2. Principios generales del Harness Engineering
+## 2. Principios generales del Arness Engineering
 
-Un harness para agentes debe cumplir con los siguientes principios:
+Un arness para agentes debe cumplir con los siguientes principios:
 
 1. **El repositorio es la fuente de verdad.**  
    Las reglas, protocolos, tareas, avances y validaciones deben vivir dentro del propio repositorio.
@@ -40,7 +40,7 @@ Para que un sistema de agentes sea efectivo, debe sostenerse sobre tres pilares 
 
 ### 3.1. El repositorio como sistema
 
-El harness no debe funcionar como una herramienta externa aislada. Debe vivir dentro del propio repositorio del proyecto mediante archivos de configuración, reglas, protocolos, scripts y registros de progreso.
+El arness no debe funcionar como una herramienta externa aislada. Debe vivir dentro del propio repositorio del proyecto mediante archivos de configuración, reglas, protocolos, scripts y registros de progreso.
 
 Esto permite que cualquier agente, desarrollador o revisor pueda entender el estado del proyecto leyendo los archivos del repositorio, sin depender de una conversación previa.
 
@@ -104,7 +104,7 @@ Regla central:
 
 ## 4. Puntos de entrada y archivos clave
 
-### 4.1. `agents.md`: el cerebro del harness
+### 4.1. `agents.md`: el cerebro del arness
 
 El archivo `agents.md` es el punto de entrada principal para los agentes. Debe ser lo primero que el modelo lea al iniciar una sesión de trabajo.
 
@@ -173,7 +173,7 @@ Ejemplo conceptual:
 #!/usr/bin/env bash
 set -e
 
-echo "Validando entorno del harness..."
+echo "Validando entorno del arness..."
 
 # Validar archivos críticos
 [ -f "agents.md" ] || { echo "Falta agents.md"; exit 1; }
@@ -265,7 +265,7 @@ Regla recomendada:
 
 ## 5. Gestión del contexto y memoria externa
 
-La eficiencia de un agente disminuye cuando su ventana de contexto se llena. Por eso, el harness debe evitar que toda la memoria del proyecto viva dentro del chat.
+La eficiencia de un agente disminuye cuando su ventana de contexto se llena. Por eso, el arness debe evitar que toda la memoria del proyecto viva dentro del chat.
 
 ### 5.1. Externalización de la memoria
 
@@ -380,7 +380,7 @@ La ventaja de estas herramientas es que son predecibles, auditables y fáciles d
 
 No se debe confiar únicamente en la declaración del agente.
 
-El harness debe exigir evidencia, por ejemplo:
+El arness debe exigir evidencia, por ejemplo:
 
 - Salida de tests.
 - Resultado de linters.
@@ -408,7 +408,7 @@ Ejemplo:
 
 ### 6.3. Capacidad de automejora
 
-El harness puede mejorar con el tiempo.
+El arness puede mejorar con el tiempo.
 
 Si el agente revisor detecta fallos recurrentes, se deben actualizar las reglas del proyecto en `agents.md`.
 
@@ -652,7 +652,7 @@ Estas reglas pueden copiarse como base para cualquier proyecto:
 
 ## 11. Recomendación de implementación gradual
 
-Para incorporar Harness Engineering en un equipo de desarrollo, se recomienda avanzar por etapas.
+Para incorporar arness Engineering en un equipo de desarrollo, se recomienda avanzar por etapas.
 
 ### Etapa 1: base mínima
 
@@ -701,7 +701,7 @@ Objetivo:
 
 ### Etapa 4: automejora
 
-Agregar reglas para que los errores recurrentes alimenten el propio harness.
+Agregar reglas para que los errores recurrentes alimenten el propio arness.
 
 Objetivo:
 
@@ -711,9 +711,9 @@ Objetivo:
 
 ## 12. Conclusión
 
-Harness Engineering permite transformar el uso de agentes de IA en un proceso controlado, verificable y alineado con buenas prácticas de ingeniería de software.
+arness Engineering permite transformar el uso de agentes de IA en un proceso controlado, verificable y alineado con buenas prácticas de ingeniería de software.
 
 La clave no está en pedirle al agente que “haga algo”, sino en construir un sistema que lo obligue a trabajar con reglas, contexto mínimo, memoria externa, validaciones y evidencia técnica.
 
-Un buen harness reduce errores, mejora la trazabilidad, facilita el trabajo multi-agente y permite incorporar IA al ciclo de desarrollo sin perder control sobre la calidad del software.
+Un buen arness reduce errores, mejora la trazabilidad, facilita el trabajo multi-agente y permite incorporar IA al ciclo de desarrollo sin perder control sobre la calidad del software.
 
