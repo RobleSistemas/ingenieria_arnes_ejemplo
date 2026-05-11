@@ -1,6 +1,6 @@
-# ejemplo-harness — Notes CLI
+# ejemplo-arnes — Notes CLI
 
-Proyecto de ejemplo que demuestra los principios de **Harness Engineering**
+Proyecto de ejemplo que demuestra los principios de **Arnes Engineering**
 aplicados a un CLI minimalista de notas en Python.
 
 > El código de la aplicación es deliberadamente simple. Lo importante de
