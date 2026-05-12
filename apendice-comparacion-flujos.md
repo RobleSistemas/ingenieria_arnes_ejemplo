@@ -8,137 +8,30 @@
 
 ## Propósito de este apéndice
 
-Este documento complementa la guía principal con una **visualización lado a lado** del flujo de trabajo previo a la instalación del arnés y el flujo posterior. La intención es que el equipo entienda de un vistazo qué cambia en la práctica cotidiana cuando se opera con el arnés instalado.
+Este documento complementa la guía principal con una **comparación lado a lado** del flujo de trabajo previo a la instalación del arnés y el flujo posterior. La intención es que el equipo entienda de un vistazo qué cambia en la práctica cotidiana cuando se opera con el arnés instalado.
 
 Se recomienda leer la guía principal antes que este apéndice. Los conceptos clave (leader, subagente, feature, criterios de aceptación, checkpoints) se asumen conocidos.
 
 ---
 
-## Diagrama
+## Cuadro comparativo
 
-<svg width="100%" viewBox="0 0 680 510" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparación de flujos: antes y después del arnés">
-  <title>Comparación de flujos: antes (sin arnés) vs con arnés instalado</title>
-  <desc>Diagrama lado a lado mostrando las seis etapas de trabajo con Claude: pedido, planning, materialización del plan, ejecución, validación y cierre, con los artefactos generados en cada paso.</desc>
-  <style>
-    .gray-fill { fill: #F1EFE8; stroke: #5F5E5A; }
-    .teal-fill { fill: #E1F5EE; stroke: #0F6E56; }
-    .amber-fill { fill: #FAEEDA; stroke: #BA7517; }
-    .gray-text { fill: #444441; }
-    .teal-text { fill: #085041; }
-    .amber-text { fill: #854F0B; }
-    .th { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 14px; font-weight: 500; }
-    .ts { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 400; }
-    .arr { stroke: #888780; stroke-width: 1.5; fill: none; }
-    .center-label { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 400; fill: #888780; }
-    .note { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 12px; font-weight: 400; fill: #5F5E5A; font-style: italic; }
-  </style>
-  <defs>
-    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-      <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </marker>
-  </defs>
+Las seis filas son **etapas equivalentes** entre los dos flujos. Lo importante no es la cantidad de pasos, sino lo que cambia en cada etapa.
 
-  <text class="th gray-text" x="140" y="30" text-anchor="middle">Antes (sin arnés)</text>
-  <text class="th teal-text" x="540" y="30" text-anchor="middle">Con arnés</text>
+| # | Etapa | Antes (sin arnés) | Con arnés |
+|---|---|---|---|
+| 1 | Inicio | Pedido del dev a Claude | Pedido al leader (rol auto-cargado vía `CLAUDE.md`) |
+| 2 | Planning | Conversación libre, plan en chat | Modo planning conversacional, con `explorer` si hace falta mapear contexto |
+| 3 | **Materializar** ★ | Plan en archivo libre `plan_feature.md` (mezcla criterios, razonamiento, bitácora) | `feature_list.json` (estructurado) + `progress/current.md` (razonamiento libre) |
+| 4 | Ejecutar | Claude implementa todo de corrido en su contexto principal | Leader delega a `implementer` o specialist, que escribe código + tests + `progress/implement_*.md` |
+| 5 | **Validar** ★ | Revisión mental: el dev mira el output y decide si está bien | `reviewer` agente valida criterios de aceptación + criterios globales C1-C9 |
+| 6 | Cerrar | Commit si pareció bien; el plan queda como archivo suelto | Archivado automático en `progress/archive/FEAT-XXX/` con todo el historial preservado |
 
-  <!-- Etapa 1: Inicio -->
-  <rect class="gray-fill" x="40" y="55" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th gray-text" x="140" y="78" text-anchor="middle">Pedido del dev</text>
-  <text class="ts gray-text" x="140" y="96" text-anchor="middle">Le pide algo a Claude</text>
-
-  <rect class="teal-fill" x="440" y="55" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th teal-text" x="540" y="78" text-anchor="middle">Pedido al leader</text>
-  <text class="ts teal-text" x="540" y="96" text-anchor="middle">Claude en rol leader</text>
-
-  <line x1="140" y1="105" x2="140" y2="125" class="arr" marker-end="url(#arrow)"/>
-  <line x1="540" y1="105" x2="540" y2="125" class="arr" marker-end="url(#arrow)"/>
-
-  <!-- Etapa 2: Planning -->
-  <rect class="gray-fill" x="40" y="125" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th gray-text" x="140" y="148" text-anchor="middle">Conversación libre</text>
-  <text class="ts gray-text" x="140" y="166" text-anchor="middle">Plan en chat</text>
-
-  <rect class="teal-fill" x="440" y="125" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th teal-text" x="540" y="148" text-anchor="middle">Modo planning</text>
-  <text class="ts teal-text" x="540" y="166" text-anchor="middle">Explorer si hace falta</text>
-
-  <line x1="140" y1="175" x2="140" y2="195" class="arr" marker-end="url(#arrow)"/>
-  <line x1="540" y1="175" x2="540" y2="195" class="arr" marker-end="url(#arrow)"/>
-
-  <!-- Etapa 3: Materializar (destacada con ámbar en la derecha) -->
-  <rect class="gray-fill" x="40" y="195" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th gray-text" x="140" y="218" text-anchor="middle">Plan en archivo</text>
-  <text class="ts gray-text" x="140" y="236" text-anchor="middle">plan_feature.md (libre)</text>
-
-  <rect class="amber-fill" x="440" y="195" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th amber-text" x="540" y="218" text-anchor="middle">Crea feature</text>
-  <text class="ts amber-text" x="540" y="236" text-anchor="middle">JSON + Markdown</text>
-
-  <line x1="140" y1="245" x2="140" y2="265" class="arr" marker-end="url(#arrow)"/>
-  <line x1="540" y1="245" x2="540" y2="265" class="arr" marker-end="url(#arrow)"/>
-
-  <!-- Etapa 4: Ejecutar -->
-  <rect class="gray-fill" x="40" y="265" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th gray-text" x="140" y="288" text-anchor="middle">"Ejecutalo"</text>
-  <text class="ts gray-text" x="140" y="306" text-anchor="middle">Implementa todo de corrido</text>
-
-  <rect class="teal-fill" x="440" y="265" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th teal-text" x="540" y="288" text-anchor="middle">Delega a implementer</text>
-  <text class="ts teal-text" x="540" y="306" text-anchor="middle">+ tests + progress/</text>
-
-  <line x1="140" y1="315" x2="140" y2="335" class="arr" marker-end="url(#arrow)"/>
-  <line x1="540" y1="315" x2="540" y2="335" class="arr" marker-end="url(#arrow)"/>
-
-  <!-- Etapa 5: Validar (destacada con ámbar en la derecha) -->
-  <rect class="gray-fill" x="40" y="335" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th gray-text" x="140" y="358" text-anchor="middle">Revisión mental</text>
-  <text class="ts gray-text" x="140" y="376" text-anchor="middle">Dev mira el output</text>
-
-  <rect class="amber-fill" x="440" y="335" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th amber-text" x="540" y="358" text-anchor="middle">Reviewer agente</text>
-  <text class="ts amber-text" x="540" y="376" text-anchor="middle">Valida criterios + C1-C9</text>
-
-  <line x1="140" y1="385" x2="140" y2="405" class="arr" marker-end="url(#arrow)"/>
-  <line x1="540" y1="385" x2="540" y2="405" class="arr" marker-end="url(#arrow)"/>
-
-  <!-- Etapa 6: Cerrar -->
-  <rect class="gray-fill" x="40" y="405" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th gray-text" x="140" y="428" text-anchor="middle">Commit</text>
-  <text class="ts gray-text" x="140" y="446" text-anchor="middle">Si pareció bien</text>
-
-  <rect class="teal-fill" x="440" y="405" width="200" height="50" rx="8" stroke-width="0.5"/>
-  <text class="th teal-text" x="540" y="428" text-anchor="middle">Archivado</text>
-  <text class="ts teal-text" x="540" y="446" text-anchor="middle">progress/archive/FEAT-XXX/</text>
-
-  <!-- Etiquetas de etapa en el centro -->
-  <text class="center-label" x="340" y="83" text-anchor="middle">Inicio</text>
-  <text class="center-label" x="340" y="153" text-anchor="middle">Planning</text>
-  <text class="center-label" x="340" y="223" text-anchor="middle">Materializar</text>
-  <text class="center-label" x="340" y="293" text-anchor="middle">Ejecutar</text>
-  <text class="center-label" x="340" y="363" text-anchor="middle">Validar</text>
-  <text class="center-label" x="340" y="433" text-anchor="middle">Cerrar</text>
-
-  <text class="note" x="340" y="490" text-anchor="middle">Las cajas en ámbar marcan los dos cambios estructurales importantes del arnés.</text>
-</svg>
+**★ Las etapas 3 y 5 son los dos cambios estructurales más importantes del arnés.** Se explican en detalle en la sección siguiente.
 
 ---
 
-## Cómo leer el diagrama
-
-Las **seis filas** representan **etapas equivalentes** entre los dos flujos. Lo importante no es la cantidad de pasos, sino lo que cambia en cada etapa.
-
-| Etapa | Antes (sin arnés) | Con arnés |
-|---|---|---|
-| **1. Inicio** | El dev le pide algo a Claude conversacionalmente | El dev le pide algo a Claude, que ya está en rol de leader (cargado automáticamente desde `CLAUDE.md`) |
-| **2. Planning** | Conversación libre, el plan se construye en el chat | Modo planning conversacional, con `explorer` lanzado si hace falta mapear contexto técnico |
-| **3. Materializar** | El plan se escribe en un archivo libre (`plan_feature.md`) que mezcla criterios, razonamiento y bitácora | El plan se divide en dos lugares con propósitos distintos: `feature_list.json` (estructurado, verificable) + `progress/current.md` (razonamiento libre) |
-| **4. Ejecutar** | Claude implementa todo de corrido en su contexto principal | El leader delega a un `implementer` o specialist que escribe código + tests + archivo de progreso en el mismo turno |
-| **5. Validar** | Revisión mental: el dev mira el output y decide si está bien | Reviewer agente que valida cada criterio de aceptación uno por uno + los criterios globales C1-C9 antes de aprobar |
-| **6. Cerrar** | Commit si pareció estar bien; el plan queda en el repo como archivo suelto | Archivado automático en `progress/archive/FEAT-XXX/` con todo el historial preservado (explore, implement, review) |
-
----
-
-## Los dos cambios estructurales importantes (cajas en ámbar)
+## Los dos cambios estructurales importantes (etapas 3 y 5)
 
 ### Cambio 1: la materialización del plan (etapa 3)
 
